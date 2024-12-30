@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Lista de Compras</title>
+</head>
+
+<body>
+    <input type="text" name="descricao" id="descricao">
+    <input type="text" name="quantidade" id="quantidade">
+    <button onclick="adicionar()">Adicionar</button>
+    <button onclick="limpar()">Limpar</button>
+    <table id="lista">
+        <thead>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+        </thead>
+        <tbody id="ulLista">
+
+        </tbody>
+    </table>
+    <p id="contador"></p>
+</body>
+<script>
+    let lista = []
+    function adicionar() {
+        let item = {
+            descricao: window.document.getElementById('descricao').value,
+            quantidade: parseInt(window.document.getElementById('quantidade').value)
+        }
+        lista.push(item)
+
+        //Esvaziando as strings dos campos de input
+        window.document.getElementById('quantidade').value = ''
+        window.document.getElementById('descricao').value = ''
+
+        let ulLista = document.getElementById('ulLista')
+        while (ulLista.firstChild) {
+            ulLista.removeChild(ulLista.firstChild)
+        }
+
+        let contador_itens = 0
+        console.log(lista)
+        lista.forEach((item) => {
+            //Adicionando evento onclick ao botão
+            const button_remove_function = () => {
+                lista.splice(0, 1)
+                console.log(lista)
+            }
+            //Criando elemento
+            const tr = document.createElement('tr')
+            const td_descricao = document.createElement('td')
+            const td_quantidade = document.createElement('td')
+            let button_remove = document.createElement('button')
+            button_remove.onclick = button_remove_function
+            const button_edit = document.createElement('button')
+
+            //criando texto
+            const texto_descricao = document.createTextNode(item.descricao)
+            const texto_quantidade = document.createTextNode(item.quantidade)
+            const text_button_remove = document.createTextNode('Lixeira')
+            const text_button_edit = document.createTextNode('Editar')
+
+            //Adicionando texto
+            td_descricao.appendChild(texto_descricao)
+            td_quantidade.appendChild(texto_quantidade)
+            button_remove.appendChild(text_button_remove)
+            button_edit.appendChild(text_button_edit)
+
+            tr.appendChild(td_descricao)
+            tr.appendChild(td_quantidade)
+            tr.appendChild(button_remove)
+            tr.appendChild(button_edit)
+            ulLista.appendChild(tr)
+
+
+            contador_itens += item.quantidade
+
+
+        })
+
+
+
+        document.getElementById('contador').innerHTML = contador_itens
+
+    }
+
+    function remover() {
+        lista.splice(0, 1)
+        console.log(lista)
+    }
+
+
+
+    function limpar() {
+        let item = window.document.getElementById('item').value
+        let lista = window.document.getElementById('lista')
+        lista.innerHTML = item.substring(item.lenght - 1)
+    }
+
+</script>
+
+</html>
